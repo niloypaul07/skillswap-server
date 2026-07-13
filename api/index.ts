@@ -209,7 +209,8 @@ app.put("/api/skills/:id", authMiddleware, async (req: any, res: any) => {
     const updated = { title, shortDescription, description, category, price: parseFloat(price), level, location, imageUrl: imageUrl || existing.imageUrl, specs: specs || existing.specs, updatedAt: new Date() };
 
     await db.collection("skills").updateOne({ _id: new ObjectId(req.params.id) }, { $set: updated });
-    res.json({ message: "Skill updated", skill: { _id: req.params.id, ...existing, ...updated } });
+    const { _id: _eid, ...existingRest } = existing;
+    res.json({ message: "Skill updated", skill: { _id: req.params.id, ...existingRest, ...updated } });
   } catch (err: any) {
     res.status(500).json({ message: "Failed to update skill", error: err.message });
   }
