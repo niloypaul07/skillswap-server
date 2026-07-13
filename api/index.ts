@@ -34,6 +34,15 @@ app.use(cors({ origin: "*", methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.get("/api/health", (_req: any, res: any) => res.json({ status: "OK", timestamp: new Date() }));
+
+app.get("/api/debug", (_req: any, res: any) => res.json({
+  MONGODB_URI_set: !!process.env.MONGODB_URI,
+  JWT_SECRET_set: !!process.env.JWT_SECRET,
+  NODE_ENV: process.env.NODE_ENV,
+  uri_prefix: process.env.MONGODB_URI?.substring(0, 25) || "NOT SET",
+}));
+
 // DB injection middleware
 app.use(async (req: any, res: any, next: any) => {
   try {
@@ -55,16 +64,6 @@ function auth(req: any, res: any, next: any) {
     res.status(401).json({ message: "Invalid token" });
   }
 }
-
-// ─── Routes ───────────────────────────────────────────────────────────────────
-app.get("/api/health", (_req: any, res: any) => res.json({ status: "OK", timestamp: new Date() }));
-
-app.get("/api/debug", (_req: any, res: any) => res.json({
-  MONGODB_URI_set: !!process.env.MONGODB_URI,
-  JWT_SECRET_set: !!process.env.JWT_SECRET,
-  NODE_ENV: process.env.NODE_ENV,
-  uri_prefix: process.env.MONGODB_URI?.substring(0, 25) || "NOT SET",
-}));
 
 // Register
 app.post("/api/auth/register", async (req: any, res: any) => {
