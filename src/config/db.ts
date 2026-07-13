@@ -4,10 +4,16 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-// Windows/router DNS often fails SRV lookups for mongodb+srv:// — use public DNS
-dns.setServers(["8.8.8.8", "8.8.4.4", "1.1.1.1"]);
-if (dns.setDefaultResultOrder) {
-  dns.setDefaultResultOrder("ipv4first");
+// Windows/router DNS often fails SRV lookups for mongodb+srv:// — use public DNS (skip on Vercel)
+if (process.env.VERCEL !== "1") {
+  try {
+    dns.setServers(["8.8.8.8", "8.8.4.4", "1.1.1.1"]);
+    if (dns.setDefaultResultOrder) {
+      dns.setDefaultResultOrder("ipv4first");
+    }
+  } catch (e) {
+    console.warn("Failed to set custom DNS servers:", e);
+  }
 }
 
 const uri = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/skillswap";
@@ -33,7 +39,7 @@ export async function connectDB(): Promise<Db> {
     return db;
   } catch (error) {
     console.error("MongoDB connection error:", error);
-    process.exit(1);
+    throw error;
   }
 }
 
