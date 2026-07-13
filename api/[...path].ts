@@ -34,6 +34,7 @@ app.use(cors({ origin: "*", methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.get("/", (_req: any, res: any) => res.json({ name: "SkillSwap API", version: "1.0.0", status: "Running", docs: "/api/health" }));
 app.get("/api/health", (_req: any, res: any) => res.json({ status: "OK", timestamp: new Date() }));
 
 app.get("/api/debug", (_req: any, res: any) => res.json({
