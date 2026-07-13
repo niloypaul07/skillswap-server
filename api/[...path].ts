@@ -217,5 +217,10 @@ app.delete("/api/skills/:id", auth, async (req: any, res: any) => {
   }
 });
 
+// ─── Debug Catch-all ──────────────────────────────────────────────────────
+app.all("*", (req, res) => {
+  res.status(404).json({ message: "Express Catch-All", requestedUrl: req.url, originalUrl: req.originalUrl, method: req.method });
+});
+
 // ─── Export for Vercel ────────────────────────────────────────────────────────
 export default app;
