@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SkillSwap API</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #0d1117;
+      color: #e6edf3;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .card {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 12px;
+      padding: 40px 48px;
+      max-width: 520px;
+      width: 90%;
+      text-align: center;
+    }
+    .badge {
+      display: inline-block;
+      background: #1f6feb22;
+      border: 1px solid #1f6feb55;
+      color: #58a6ff;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+    .subtitle { color: #8b949e; font-size: 15px; margin-bottom: 32px; }
+    .endpoints { text-align: left; margin-bottom: 32px; }
+    .endpoints h3 { font-size: 13px; font-weight: 600; color: #8b949e; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
+    .endpoint {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      background: #0d1117;
+      border: 1px solid #21262d;
+      border-radius: 6px;
+      margin-bottom: 8px;
+      font-size: 13px;
+      font-family: 'Courier New', monospace;
+    }
+    .method {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 4px;
+      min-width: 44px;
+      text-align: center;
+    }
+    .get { background: #1a7f37; color: #3fb950; }
+    .post { background: #9e6a03; color: #e3b341; }
+    .url { color: #79c0ff; }
+    .links { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: opacity 0.2s;
+    }
+    .link:hover { opacity: 0.8; }
+    .link-primary { background: #1f6feb; color: #fff; }
+    .link-secondary { background: #21262d; color: #e6edf3; border: 1px solid #30363d; }
+    .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #3fb950; display: inline-block; margin-right: 4px; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="badge"><span class="status-dot"></span>Live &amp; Running</div>
+    <h1>SkillSwap API 📡</h1>
+    <p class="subtitle">Peer-to-Peer Tutoring &amp; Mentorship Marketplace · v1.0.0</p>
+
+    <div class="endpoints">
+      <h3>Key Endpoints</h3>
+      <div class="endpoint"><span class="method get">GET</span><span class="url">/api/health</span></div>
+      <div class="endpoint"><span class="method post">POST</span><span class="url">/api/auth/register</span></div>
+      <div class="endpoint"><span class="method post">POST</span><span class="url">/api/auth/login</span></div>
+      <div class="endpoint"><span class="method get">GET</span><span class="url">/api/skills</span></div>
+    </div>
+
+    <div class="links">
+      <a class="link link-primary" href="https://skillswap-client-navy.vercel.app/" target="_blank">🖥️ View Live App</a>
+      <a class="link link-secondary" href="/api/health" target="_blank">✅ Health Check</a>
+    </div>
+  </div>
+</body>
+</html>
