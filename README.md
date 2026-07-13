@@ -1,22 +1,41 @@
-# SkillSwap Server 📡 (Backend API)
+# SkillSwap Server 📡
 
-This repository contains the Node.js, Express, and MongoDB backend API for **SkillSwap**, a peer-to-peer tutoring and mentorship marketplace.
+> **Live API:** [https://skillswap-server-zeta.vercel.app/](https://skillswap-server-zeta.vercel.app/)
+
+The Node.js + Express + MongoDB REST API backend for **SkillSwap**, a peer-to-peer tutoring and mentorship marketplace. Deployed on Vercel as a serverless function.
+
+---
+
+## 🌐 Live Links
+
+| | Link |
+|---|---|
+| 📡 **Backend (API Server)** | [https://skillswap-server-zeta.vercel.app/](https://skillswap-server-zeta.vercel.app/) |
+| 🖥️ **Frontend (Client)** | [https://skillswap-client-navy.vercel.app/](https://skillswap-client-navy.vercel.app/) |
+
+---
 
 ## 🚀 Key Features
-*   **Database Integration**: Direct native MongoDB connections with optimized connection pooling.
-*   **User Registration & Secure Authentication**: Uses SHA-256 (or cryptographically secure hashing) and generates JSON Web Tokens (JWT) for secure authentication.
-*   **Request Authorization**: Custom Express middleware validating JWT tokens in HTTP headers (`Authorization: Bearer <token>`) and attaching the active session details to routing contexts.
-*   **Comprehensive CRUD Routing**: Handles posting, reading, updating, and deleting listings with user validation checks.
-*   **Database Seeding Script**: Ready-to-use seed script to populate databases on initialization with sample listings.
+
+- **Database Integration** — Native MongoDB driver with serverless-optimized connection caching.
+- **User Registration & Secure Authentication** — Passwords hashed with `bcryptjs`, sessions managed with JSON Web Tokens (JWT).
+- **Request Authorization Middleware** — Custom Express middleware validates JWT tokens from `Authorization: Bearer <token>` headers.
+- **Comprehensive CRUD API** — Full create, read, update, and delete support for skill listings with owner-level authorization checks.
+- **Database Seeding Script** — Ready-to-use seed script to populate the database with sample listings.
 
 ---
 
 ## 🛠️ Tech Stack
-*   **Runtime**: Node.js & Express.js
-*   **Language**: TypeScript (Type-safe compilation)
-*   **Database**: MongoDB (Native Driver)
-*   **Authentication**: jsonwebtoken (JWT)
-*   **Dev Server**: ts-node-dev (hot reload)
+
+| Layer | Technology |
+|---|---|
+| Runtime | Node.js |
+| Framework | Express.js v4 |
+| Language | TypeScript |
+| Database | MongoDB (Native Driver) |
+| Authentication | jsonwebtoken (JWT) |
+| Password Hashing | bcryptjs |
+| Hosting | Vercel (Serverless) |
 
 ---
 
@@ -25,26 +44,27 @@ This repository contains the Node.js, Express, and MongoDB backend API for **Ski
 Create a `.env` file in the root of the server folder:
 
 ```env
-PORT=5000
-MONGODB_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/databaseName?appName=Cluster0
+MONGODB_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/skillswapDB?appName=Cluster0
 JWT_SECRET=your_custom_jwt_secret_key_string
 ```
 
+> **Vercel Deployment**: Set these same variables in your Vercel project under **Settings → Environment Variables**.
+
 ---
 
-## 🚀 Getting Started
+## 🚀 Getting Started (Local)
 
 1. Install dependencies:
    ```bash
    npm install
    ```
 
-2. Seed your MongoDB Database:
+2. Seed your MongoDB database with sample data:
    ```bash
    npm run seed
    ```
 
-3. Run the development API server:
+3. Run the development server:
    ```bash
    npm run dev
    ```
@@ -52,16 +72,28 @@ JWT_SECRET=your_custom_jwt_secret_key_string
 
 ---
 
-## 📡 API Reference endpoints
+## 📡 API Reference
 
-| Method | Endpoint | Auth Required | Description |
+| Method | Endpoint | Auth | Description |
 |---|---|---|---|
-| **POST** | `/api/auth/register` | No | Creates a new user |
-| **POST** | `/api/auth/login` | No | Authenticates user & returns token |
-| **GET** | `/api/auth/me` | Yes | Retrieves user account profile |
-| **GET** | `/api/skills` | No | Fetches listings (supports search, sort, paging, category) |
-| **GET** | `/api/skills/my-skills`| Yes | Fetches listings created by the logged-in user |
-| **GET** | `/api/skills/:id` | No | Fetches a single listing details |
-| **POST** | `/api/skills` | Yes | Publishes a new tutoring listing |
-| **PUT** | `/api/skills/:id` | Yes | Modifies an existing listing |
-| **DELETE** | `/api/skills/:id` | Yes | Deletes a listing |
+| `GET` | `/` | No | API info & status |
+| `GET` | `/api/health` | No | Health check |
+| `POST` | `/api/auth/register` | No | Create a new user account |
+| `POST` | `/api/auth/login` | No | Authenticate & receive JWT token |
+| `GET` | `/api/auth/me` | ✅ Yes | Get current user profile |
+| `GET` | `/api/skills` | No | Fetch listings (search, sort, filter, paging) |
+| `GET` | `/api/skills/my-skills` | ✅ Yes | Fetch listings by logged-in user |
+| `GET` | `/api/skills/:id` | No | Fetch a single listing |
+| `POST` | `/api/skills` | ✅ Yes | Create a new listing |
+| `PUT` | `/api/skills/:id` | ✅ Yes | Update an existing listing |
+| `DELETE` | `/api/skills/:id` | ✅ Yes | Delete a listing |
+
+---
+
+## 🔐 Security
+
+- Passwords are **never stored in plaintext** — hashed with `bcryptjs` (10 salt rounds).
+- JWT tokens expire after **7 days**.
+- All protected routes verify token ownership before allowing modifications.
+- MongoDB Atlas is configured with **network access control** to restrict connections.
+- Production deployments enforce **HTTPS only** via Vercel.
