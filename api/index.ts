@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import { MongoClient, Db, ServerApiVersion } from "mongodb";
+import { MongoClient, Db } from "mongodb";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { ObjectId } from "mongodb";
@@ -19,14 +19,16 @@ let cachedDb: Db | null = null;
 
 async function connectDB(): Promise<Db> {
   if (cachedDb) return cachedDb;
+  if (!MONGODB_URI) throw new Error("MONGODB_URI environment variable is not set");
   const client = new MongoClient(MONGODB_URI, {
-    serverApi: { version: ServerApiVersion.v1, strict: true, deprecationErrors: true },
-    connectTimeoutMS: 10000,
-    serverSelectionTimeoutMS: 10000,
+    connectTimeoutMS: 15000,
+    serverSelectionTimeoutMS: 15000,
+    socketTimeoutMS: 30000,
   });
   await client.connect();
   cachedClient = client;
   cachedDb = client.db("skillswap");
+  console.log("MongoDB connected successfully");
   return cachedDb;
 }
 
