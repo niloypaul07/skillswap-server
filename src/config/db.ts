@@ -35,7 +35,7 @@ export async function connectDB(): Promise<Db> {
   try {
     await client.connect();
     console.log("Connected to MongoDB successfully!");
-    db = client.db();
+    db = client.db("skillswap");  // Always use 'skillswap' database
     return db;
   } catch (error) {
     console.error("MongoDB connection error:", error);
