@@ -19,13 +19,13 @@ async function connectDB(): Promise<Db> {
   if (cachedDb) return cachedDb;
   if (!MONGODB_URI) throw new Error("MONGODB_URI environment variable is not set");
   const client = new MongoClient(MONGODB_URI, {
-    connectTimeoutMS: 15000,
-    serverSelectionTimeoutMS: 15000,
-    socketTimeoutMS: 30000,
+    connectTimeoutMS: 5000,
+    serverSelectionTimeoutMS: 5000,
+    socketTimeoutMS: 8000,
   });
   await client.connect();
   cachedClient = client;
-  cachedDb = client.db("skillswap");
+  cachedDb = client.db("skillswapDB");
   return cachedDb;
 }
 
