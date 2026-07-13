@@ -62,6 +62,15 @@ function authMiddleware(req: any, res: any, next: any) {
   }
 }
 
+// ─── Debug endpoint ────────────────────────────────────────────────────────────
+app.get("/api/debug", (_req, res) => res.json({
+  MONGODB_URI_set: !!process.env.MONGODB_URI,
+  JWT_SECRET_set: !!process.env.JWT_SECRET,
+  VERCEL: process.env.VERCEL,
+  NODE_ENV: process.env.NODE_ENV,
+  mongo_uri_prefix: process.env.MONGODB_URI ? process.env.MONGODB_URI.substring(0, 30) + "..." : "NOT SET"
+}));
+
 // ─── Health Check ─────────────────────────────────────────────────────────────
 app.get("/api/health", (_req, res) => res.json({ status: "OK", timestamp: new Date() }));
 
