@@ -256,7 +256,8 @@ router.put("/:id", authMiddleware, async (req: AuthRequest, res: Response): Prom
       { $set: updatedData }
     );
 
-    res.json({ message: "Skill updated successfully", skill: { _id: new ObjectId(id), ...existingSkill, ...updatedData } });
+    const { _id: _existingId, ...existingRest } = existingSkill;
+    res.json({ message: "Skill updated successfully", skill: { _id: new ObjectId(id), ...existingRest, ...updatedData } });
   } catch (error) {
     console.error("Update skill error:", error);
     res.status(500).json({ message: "Server error updating skill" });

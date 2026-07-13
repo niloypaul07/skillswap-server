@@ -10,8 +10,16 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Connect to DB immediately
-connectDB().catch(err => console.error("Database connection failed:", err));
+// Middleware to ensure DB connection is established in serverless environments
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    console.error("DB connection middleware failed:", err);
+    res.status(500).json({ message: "Internal server database connection error" });
+  }
+});
 
 // Middleware
 app.use(cors({
