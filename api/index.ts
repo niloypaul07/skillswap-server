@@ -44,7 +44,7 @@ app.use(async (req: any, res, next) => {
     next();
   } catch (err: any) {
     console.error("DB Error:", err.message);
-    res.status(500).json({ message: "Database connection failed", error: err.message });
+    res.status(500).json({ message: "Database connection failed", error: err.message, uri_set: !!process.env.MONGODB_URI });
   }
 });
 
@@ -105,7 +105,7 @@ app.post("/api/auth/login", async (req: any, res: any) => {
     res.json({ token, user });
   } catch (err: any) {
     console.error("Login error:", err);
-    res.status(500).json({ message: "Login failed", error: err.message });
+    res.status(500).json({ message: "Login failed", error: err.message, stack: err.stack?.split("\n")[0] });
   }
 });
 
