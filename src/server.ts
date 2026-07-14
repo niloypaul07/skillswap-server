@@ -29,6 +29,9 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.get("/", (req, res) => {
+  res.send("SkillSwap API Server is running successfully!");
+});
 
 // Health Check API
 app.get("/api/health", (req, res) => {
